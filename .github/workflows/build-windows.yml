@@ -1,0 +1,60 @@
+name: Build Windows EXE
+
+on:
+  push:
+    branches: [main, master]
+    tags: ["v*"]
+  workflow_dispatch: {}
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Baixar código do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependências
+        run: |
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Compilar executável Windows
+        run: |
+          pyinstaller --name validador-tiss --onefile --windowed `
+            --add-data "validador_tiss/schemas;validador_tiss/schemas" `
+            --hidden-import lxml.etree `
+            --hidden-import lxml._elementpath `
+            --hidden-import openpyxl `
+            validador_tiss_app.py
+          pyinstaller --name validador-tiss-cli --onefile --console `
+            --add-data "validador_tiss/schemas;validador_tiss/schemas" `
+            --hidden-import lxml.etree `
+            --hidden-import lxml._elementpath `
+            validador_tiss_cli.py
+
+      - name: Testar o executável gerado
+        run: |
+          .\dist\validador-tiss-cli.exe --apenas-erros exemplos\lote_valido.xml
+
+      - name: Publicar o executável como artefato do build
+        uses: actions/upload-artifact@v4
+        with:
+          name: validador-tiss-windows
+          path: |
+            dist/validador-tiss.exe
+            dist/validador-tiss-cli.exe
+          retention-days: 90
+
+      - name: Criar Release com o .exe (somente quando vier de uma tag v*)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/validador-tiss.exe
+            dist/validador-tiss-cli.exe

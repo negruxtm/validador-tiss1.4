@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<mensagemEnvioANS xmlns="http://www.ans.gov.br/padroes/tiss/schemas">
+  <cabecalho>
+    <identificacaoTransacao>
+      <tipoTransacao>MONITORAMENTO</tipoTransacao>
+      <numeroLote>000000000001</numeroLote>
+      <competenciaLote>202606</competenciaLote>
+      <dataRegistroTransacao>2026-06-15</dataRegistroTransacao>
+      <horaRegistroTransacao>09:30:00</horaRegistroTransacao>
+    </identificacaoTransacao>
+    <registroANS>123456</registroANS>
+    <versaoPadrao>1.06.00</versaoPadrao>
+  </cabecalho>
+  <Mensagem>
+    <operadoraParaANS>
+      <semMovimentoInclusao>5016</semMovimentoInclusao>
+    </operadoraParaANS>
+  </Mensagem>
+  <epilogo>
+    <hash>A1B2C3D4E5F6A1B2C3D4E5F6A1B2C3D4</hash>
+  </epilogo>
+</mensagemEnvioANS>
