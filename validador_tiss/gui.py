@@ -31,10 +31,12 @@ def caminho_recurso(caminho_relativo: str) -> Path:
 class ValidadorTISSApp(tk.Tk):
     def __init__(self) -> None:
         super().__init__()
+        
         try:
             self.iconbitmap(caminho_recurso("assets/validador-tiss.ico"))
         except (tk.TclError, OSError):
             pass
+            
         self.title("Validador TISS")
         self.geometry("1180x760")
         self.minsize(940, 620)
