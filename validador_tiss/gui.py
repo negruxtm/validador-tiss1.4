@@ -32,10 +32,12 @@ class ValidadorTISSApp(tk.Tk):
     def __init__(self) -> None:
         super().__init__()
         
+        caminho_icone = caminho_recurso("assets/validador-tiss.ico")
+        
         try:
-            self.iconbitmap(caminho_recurso("assets/validador-tiss.ico"))
-        except (tk.TclError, OSError):
-            pass
+            self.iconbitmap(default=str(caminho_icone))
+        except (tk.TclError, OSError) as erro:
+            print(f"Não foi possível carregar o ícone: {erro}")
             
         self.title("Validador TISS")
         self.geometry("1180x760")

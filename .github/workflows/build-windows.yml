@@ -27,7 +27,10 @@ jobs:
       - name: Compilar executável Windows
         run: |
           pyinstaller --name validador-tiss --onefile --windowed `
+            --clean `
+            --noconfirm `
             --icon "assets/validador-tiss.ico" `
+            --add-data "assets/validador-tiss.ico;assets" `
             --add-data "validador_tiss/schemas;validador_tiss/schemas" `
             --hidden-import lxml.etree `
             --hidden-import lxml._elementpath `
