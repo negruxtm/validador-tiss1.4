@@ -9,6 +9,7 @@ import threading
 import tkinter as tk
 from pathlib import Path
 from tkinter import filedialog, messagebox, ttk
+from PIL     import Image, ImageTk
 
 from .tuss import CATALOGO_PADRAO, CatalogoTUSS
 from .validador import validar_arquivo
@@ -69,6 +70,25 @@ class ValidadorTISSApp(tk.Tk):
         topo = tk.Frame(self, bg=CORES["primaria_escura"], height=100)
         topo.pack(fill="x")
         topo.pack_propagate(False)
+        
+        # Logo do Hospital da Providência no canto superior direito
+        try:
+            caminho_logo = caminho_recurso("assets/logo_hospital.png")
+
+            imagem_logo = Image.open(caminho_logo)
+            imagem_logo.thumbnail((155, 64), Image.Resampling.LANCZOS)
+
+            self.logo_hospital = ImageTk.PhotoImage(imagem_logo)
+
+            quadro_logo = tk.Frame(topo, bg=CORES["primaria_escura"], padx=8, pady=4)
+            quadro_logo.pack(side="right", padx=(10, 22), pady=7)
+
+            label_logo = tk.Label(quadro_logo, image=self.logo_hospital, bg=CORES["primaria_escura"], borderwidth=0)
+            label_logo.pack()
+
+        except (OSError, tk.TclError) as erro:
+            print(f"Não foi possível carregar a logo do hospital: {erro}")
+        
         tk.Label(topo, text="✓", font=("Segoe UI", 26, "bold"), bg=CORES["primaria_escura"], fg="#75D6B1").pack(side="left", padx=(26, 12))
         titulos = tk.Frame(topo, bg=CORES["primaria_escura"])
         titulos.pack(side="left", pady=15)
